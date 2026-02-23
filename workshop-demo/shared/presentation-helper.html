@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Workshop Helper - Web Development Hotel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2A6F6F;
+            --accent: #E76F51;
+            --bg: #FDFBF7;
+            --text: #264653;
+            --card-bg: #fff;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary), #1a4a4a);
+            color: white;
+            margin-bottom: 30px;
+            border-radius: 0 0 30px 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            border: none;
+            background: white;
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            font-size: 1.5em;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .tag { color: #569cd6; }
+        .code-block .attr { color: #9cdcfe; }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #d1583a;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .checklist li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 15px 20px;
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            background: #e8f4f4;
+            border-color: var(--primary);
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .quiz-option.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .api-tester {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .api-form {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .api-form input,
+        .api-form select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .api-form button {
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .api-response {
+            background: #1e1e1e;
+            color: #4ec9b0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .cheat-sheet {
+            columns: 2;
+            column-gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .cheat-sheet {
+                columns: 1;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .glossary dt {
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 15px;
+        }
+
+        .glossary dd {
+            margin-left: 0;
+            margin-top: 5px;
+            padding-left: 20px;
+            border-left: 3px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎓 Workshop Web Development</h1>
+        <p>Hotel & Tourism Industry | Day 1 & Day 2 Helper</p>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('day1')">📚 Day 1: Frontend</button>
+            <button class="tab-btn" onclick="showTab('day2')">⚙️ Day 2: Backend</button>
+            <button class="tab-btn" onclick="showTab('quiz')">📝 Quiz</button>
+            <button class="tab-btn" onclick="showTab('api')">🔌 API Tester</button>
+            <button class="tab-btn" onclick="showTab('cheatsheet')">📋 Cheat Sheet</button>
+        </div>
+
+        <!-- DAY 1 CONTENT -->
+        <div id="day1" class="tab-content active">
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="card-icon">🏗️</span> HTML Basics</h3>
+                    <p>Struktur dasar halaman web:</p>
+                    <div class="code-block">
+<span class="comment">&lt;!-- Struktur Dasar HTML --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Hotel Booking<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"style.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;header&gt;</span>
+        <span class="tag">&lt;nav&gt;</span>...<span class="tag">&lt;/nav&gt;</span>
+    <span class="tag">&lt;/header&gt;</span>
+    <span class="tag">&lt;main&gt;</span>...<span class="tag">&lt;/main&gt;</span>
+    <span class="tag">&lt;footer&gt;</span>...<span class="tag">&lt;/footer&gt;</span>
+    <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="string">"script.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">🎨</span> CSS Styling</h3>
+                    <p>Contoh styling komponen:</p>
+                    <div class="code-block">
+<span class="comment">/* CSS untuk Card Kamar */</span>
+<span class="attr">.room-card</span> {
+    <span class="attr">background</span>: <span class="string">white</span>;
+    <span class="attr">border-radius</span>: <span class="string">16px</span>;
+    <span class="attr">box-shadow</span>: <span class="string">0 4px 15px rgba(0,0,0,0.1)</span>;
+    <span class="attr">transition</span>: <span class="string">transform 0.3s</span>;
+}
+
+<span class="attr">.room-card:hover</span> {
+    <span class="attr">transform</span>: <span class="string">translateY(-10px)</span>;
+}
+
+<span class="comment">/* Responsive Design */</span>
+<span class="keyword">@media</span> (max-width: <span class="string">768px</span>) {
+    <span class="attr">.room-card</span> {
+        <span class="attr">width</span>: <span class="string">100%</span>;
+    }
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">⚡</span> JavaScript Interaktif</h3>
+                    <p>Event handling dan DOM manipulation:</p>
+                    <div class="code-block">
+<span class="comment">// Form Booking Handler</span>
+<span class="keyword">const</span> form = document.<span class="attr">getElementById</span>(<span class="string">'bookingForm'</span>);
+
+form.<span class="attr">addEventListener</span>(<span class="string">'submit'</span>, <span class="keyword">async</span> (e) => {
+    e.<span class="attr">preventDefault</span>();
+    
+    <span class="keyword">const</span> formData = {
+        checkin: document.<span class="attr">getElementById</span>(<span class="string">'checkin'</span>).value,
+        checkout: document.<span class="attr">getElementById</span>(<span class="string">'checkout'</span>).value,
+        guests: document.<span class="attr">getElementById</span>(<span class="string">'guests'</span>).value
+    };
+    
+    <span class="comment">// Validasi</span>
+    <span class="keyword">if</span> (<span class="keyword">new</span> <span class="attr">Date</span>(formData.checkin) >= 
+        <span class="keyword">new</span> <span class="attr">Date</span>(formData.checkout)) {
+        <span class="attr">showToast</span>(<span class="string">'Check-out harus setelah check-in!'</span>);
+        <span class="keyword">return</span>;
+    }
+    
+    <span class="comment">// Kirim ke API</span>
+    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="attr">fetch</span>(<span class="string">'/api/bookings'</span>, {
+        method: <span class="string">'POST'</span>,
+        headers: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+        body: JSON.<span class="attr">stringify</span>(formData)
+    });
+});
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">📱</span> UX Best Practices</h3>
+                    <ul class="checklist">
+                        <li>Mobile-first design</li>
+                        <li>Loading speed optimization</li>
+                        <li>Clear call-to-action buttons</li>
+                        <li>Intuitive navigation</li>
+                        <li>High-quality images</li>
+                        <li>Trust signals (reviews, awards)</li>
+                        <li>Simple booking process</li>
+                        <li>Accessibility support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- DAY 2 CONTENT -->
+        <div id="day2" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="card-icon">🗄️</span> Database Schema</h3>
+                    <p>Struktur tabel utama:</p>
+                    <div class="code-block">
+<span class="comment">-- Tabel Hotels</span>
+<span class="keyword">CREATE TABLE</span> <span class="attr">hotels</span> (
+    hotel_id <span class="keyword">INT PRIMARY KEY</span> AUTO_INCREMENT,
+    name <span class="keyword">VARCHAR</span>(255) <span class="keyword">NOT NULL</span>,
+    address <span class="keyword">TEXT NOT NULL</span>,
+    star_rating <span class="keyword">DECIMAL</span>(2,1),
+    amenities <span class="keyword">JSON</span>,
+    created_at <span class="keyword">TIMESTAMP DEFAULT</span> CURRENT_TIMESTAMP
+);
+
+<span class="comment">-- Tabel Rooms</span>
+<span class="keyword">CREATE TABLE</span> <span class="attr">rooms</span> (
+    room_id <span class="keyword">INT PRIMARY KEY</span> AUTO_INCREMENT,
+    hotel_id <span class="keyword">INT NOT NULL</span>,
+    room_type <span class="keyword">VARCHAR</span>(100) <span class="keyword">NOT NULL</span>,
+    price_per_night <span class="keyword">DECIMAL</span>(12,2) <span class="keyword">NOT NULL</span>,
+    capacity <span class="keyword">INT DEFAULT</span> 2,
+    <span class="keyword">FOREIGN KEY</span> (hotel_id) 
+        <span class="keyword">REFERENCES</span> hotels(hotel_id)
+);
+
+<span class="comment">-- Tabel Bookings</span>
+<span class="keyword">CREATE TABLE</span> <span class="attr">bookings</span> (
+    booking_id <span class="keyword">INT PRIMARY KEY</span> AUTO_INCREMENT,
+    guest_id <span class="keyword">INT NOT NULL</span>,
+    room_id <span class="keyword">INT NOT NULL</span>,
+    check_in <span class="keyword">DATE NOT NULL</span>,
+    check_out <span class="keyword">DATE NOT NULL</span>,
+    status <span class="keyword">ENUM</span>(<span class="string">'pending'</span>, <span class="string">'confirmed'</span>, 
+                  <span class="string">'cancelled'</span>) <span class="keyword">DEFAULT</span> <span class="string">'pending'</span>
+);
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">🔌</span> REST API Endpoints</h3>
+                    <p>Contoh endpoint untuk hotel booking:</p>
+                    <div class="code-block">
+<span class="comment">// Express.js Route Examples</span>
+
+<span class="comment">// GET - List all hotels</span>
+app.<span class="attr">get</span>(<span class="string">'/api/hotels'</span>, <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">const</span> hotels = <span class="keyword">await</span> db.<span class="attr">query</span>(<span class="string">'SELECT * FROM hotels'</span>);
+    res.<span class="attr">json</span>({ success: <span class="keyword">true</span>, data: hotels });
+});
+
+<span class="comment">// POST - Create booking</span>
+app.<span class="attr">post</span>(<span class="string">'/api/bookings'</span>, <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">const</span> { room_id, guest_id, check_in, check_out } = req.body;
+    
+    <span class="comment">// Check availability</span>
+    <span class="keyword">const</span> available = <span class="keyword">await</span> <span class="attr">checkRoomAvailability</span>(
+        room_id, check_in, check_out
+    );
+    
+    <span class="keyword">if</span> (!available) {
+        <span class="keyword">return</span> res.<span class="attr">status</span>(409).<span class="attr">json</span>({
+            success: <span class="keyword">false</span>,
+            message: <span class="string">'Room not available'</span>
+        });
+    }
+    
+    <span class="comment">// Create booking...</span>
+});
+
+<span class="comment">// PATCH - Cancel booking</span>
+app.<span class="attr">patch</span>(<span class="string">'/api/bookings/:id/cancel'</span>, 
+    <span class="keyword">async</span> (req, res) => {
+        <span class="comment">// Cancel logic...</span>
+    });
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">🔒</span> Mencegah Double Booking</h3>
+                    <p>Strategi handling race condition:</p>
+                    <div class="code-block">
+<span class="comment">// Strategy 1: Database Locking</span>
+<span class="keyword">BEGIN TRANSACTION</span>;
+    <span class="comment">-- Lock row untuk room</span>
+    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> rooms 
+    <span class="keyword">WHERE</span> room_id = ? 
+    <span class="keyword">FOR UPDATE</span>;
+    
+    <span class="comment">-- Check availability</span>
+    <span class="keyword">SELECT</span> <span class="attr">COUNT</span>(*) <span class="keyword">FROM</span> bookings
+    <span class="keyword">WHERE</span> room_id = ?
+    <span class="keyword">AND</span> status = <span class="string">'confirmed'</span>
+    <span class="keyword">AND</span> check_in < ? <span class="keyword">AND</span> check_out > ?;
+    
+    <span class="comment">-- Insert booking jika available</span>
+    <span class="keyword">INSERT INTO</span> bookings ...;
+<span class="keyword">COMMIT</span>;
+
+<span class="comment">// Strategy 2: Temporary Hold</span>
+<span class="comment">// Hold room selama 15 menit saat user checkout</span>
+<span class="keyword">INSERT INTO</span> room_holds 
+(room_id, check_in, check_out, expires_at)
+<span class="keyword">VALUES</span> (?, ?, ?, DATE_ADD(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> 15 <span class="keyword">MINUTE</span>));
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">💳</span> Payment Gateway Flow</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <strong>1. Create Booking</strong><br>
+                            User submit form booking → Sistem hold kamar 15 menit
+                        </div>
+                        <div class="timeline-item">
+                            <strong>2. Generate Payment Token</strong><br>
+                            Kirim request ke Payment Gateway (Midtrans/Xendit)
+                        </div>
+                        <div class="timeline-item">
+                            <strong>3. User Payment</strong><br>
+                            User redirect ke halaman payment gateway
+                        </div>
+                        <div class="timeline-item">
+                            <strong>4. Webhook Notification</strong><br>
+                            PG kirim notifikasi ke backend kita
+                        </div>
+                        <div class="timeline-item">
+                            <strong>5. Confirm Booking</strong><br>
+                            Update status booking → Release hold
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ CONTENT -->
+        <div id="quiz" class="tab-content">
+            <div class="quiz-container">
+                <div id="quiz-box">
+                    <div class="quiz-question" id="question">Loading...</div>
+                    <div class="quiz-options" id="options"></div>
+                    <div class="result-box" id="result"></div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn" onclick="nextQuestion()">Next Question →</button>
+                    <p style="margin-top: 15px; color: #666;">
+                        Question <span id="current-q">1</span> of <span id="total-q">5</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- API TESTER CONTENT -->
+        <div id="api" class="tab-content">
+            <div class="api-tester">
+                <h3>🧪 Test API Endpoints</h3>
+                <div class="api-form">
+                    <select id="api-method">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                    </select>
+                    <select id="api-endpoint">
+                        <option value="/api/hotels">/api/hotels - List Hotels</option>
+                        <option value="/api/rooms">/api/rooms - List Rooms</option>
+                        <option value="/api/bookings">/api/bookings - List Bookings</option>
+                        <option value="/api/dashboard/stats">/api/dashboard/stats - Statistics</option>
+                    </select>
+                    <input type="text" id="api-baseurl" placeholder="Base URL (e.g., http://localhost:3000)" value="http://localhost:3000">
+                    <button onclick="testAPI()">Send Request</button>
+                </div>
+                <div class="api-response" id="api-response">// Response will appear here...</div>
+            </div>
+        </div>
+
+        <!-- CHEATSHEET CONTENT -->
+        <div id="cheatsheet" class="tab-content">
+            <div class="card">
+                <h3>📋 Quick Reference Cheat Sheet</h3>
+                <div class="cheat-sheet">
+                    <dl class="glossary">
+                        <dt>HTML</dt>
+                        <dd>HyperText Markup Language - struktur dasar halaman web</dd>
+                        
+                        <dt>CSS</dt>
+                        <dd>Cascading Style Sheets - styling dan layout halaman web</dd>
+                        
+                        <dt>JavaScript</dt>
+                        <dd>Bahasa pemrograman untuk interaktivitas di browser</dd>
+                        
+                        <dt>DOM</dt>
+                        <dd>Document Object Model - representasi struktur HTML yang bisa dimanipulasi dengan JS</dd>
+                        
+                        <dt>API</dt>
+                        <dd>Application Programming Interface - cara komunikasi antara frontend dan backend</dd>
+                        
+                        <dt>REST</dt>
+                        <dd>Representational State Transfer - arsitektur API berbasis HTTP methods</dd>
+                        
+                        <dt>JSON</dt>
+                        <dd>JavaScript Object Notation - format data untuk pertukaran informasi</dd>
+                        
+                        <dt>SQL</dt>
+                        <dd>Structured Query Language - bahasa untuk mengelola database</dd>
+                        
+                        <dt>ORM</dt>
+                        <dd>Object-Relational Mapping - teknik mapping object ke database table</dd>
+                        
+                        <dt>JWT</dt>
+                        <dd>JSON Web Token - token untuk autentikasi user</dd>
+                        
+                        <dt>OAuth</dt>
+                        <dd>Open Authorization - protokol untuk akses delegated</dd>
+                        
+                        <dt>Webhook</dt>
+                        <dd>HTTP callback yang dipicu oleh event tertentu</dd>
+                        
+                        <dt>Race Condition</dt>
+                        <dd>Kondisi dimana hasil bergantung pada timing/timing event</dd>
+                        
+                        <dt>ACID</dt>
+                        <dd>Atomicity, Consistency, Isolation, Durability - properties database transaction</dd>
+                        
+                        <dt>CORS</dt>
+                        <dd>Cross-Origin Resource Sharing - mekanisme untuk request antar domain</dd>
+                        
+                        <dt>HTTPS</dt>
+                        <dd>HTTP Secure - protokol HTTP dengan enkripsi SSL/TLS</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Navigation
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Quiz Data
+        const quizData = [
+            {
+                question: "Apa fungsi utama CSS dalam web development?",
+                options: [
+                    "Menyimpan data user",
+                    "Mengatur tampilan dan layout halaman web",
+                    "Menjalankan logic di server",
+                    "Mengelola database"
+                ],
+                correct: 1
+            },
+            {
+                question: "HTTP method mana yang digunakan untuk mengupdate data?",
+                options: ["GET", "POST", "PUT/PATCH", "DELETE"],
+                correct: 2
+            },
+            {
+                question: "Bagaimana mencegah double booking pada sistem reservasi?",
+                options: [
+                    "Menggunakan JavaScript alert",
+                    "Database locking atau temporary hold",
+                    "Menonaktifkan tombol booking",
+                    "Mengirim email konfirmasi"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa kepanjangan dari API?",
+                options: [
+                    "Application Programming Interface",
+                    "Advanced Program Integration",
+                    "Automated Protocol Interface",
+                    "Application Process Integration"
+                ],
+                correct: 0
+            },
+            {
+                question: "Payment gateway mana yang TIDAK populer di Indonesia?",
+                options: ["Midtrans", "Xendit", "Stripe", "Duitku"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            document.getElementById('question').textContent = q.question;
+            document.getElementById('current-q').textContent = currentQuestion + 1;
+            document.getElementById('total-q').textContent = quizData.length;
+            
+            const optionsHtml = q.options.map((opt, idx) => 
+                `<div class="quiz-option" onclick="checkAnswer(${idx})">${opt}</div>`
+            ).join('');
+            
+            document.getElementById('options').innerHTML = optionsHtml;
+            document.getElementById('result').style.display = 'none';
+        }
+
+        function checkAnswer(selected) {
+            const q = quizData[currentQuestion];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach((opt, idx) => {
+                opt.style.pointerEvents = 'none';
+                if (idx === q.correct) opt.classList.add('correct');
+                if (idx === selected && idx !== q.correct) opt.classList.add('wrong');
+            });
+            
+            const result = document.getElementById('result');
+            if (selected === q.correct) {
+                result.textContent = '✅ Benar!';
+                result.style.background = '#d4edda';
+                score++;
+            } else {
+                result.textContent = `❌ Salah! Jawaban yang benar: ${q.options[q.correct]}`;
+                result.style.background = '#f8d7da';
+            }
+            result.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion >= quizData.length) {
+                document.getElementById('quiz-box').innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <h2>🎉 Quiz Selesai!</h2>
+                        <p style="font-size: 1.5em; margin: 20px 0;">
+                            Skor Anda: ${score}/${quizData.length}
+                        </p>
+                        <button class="btn" onclick="resetQuiz()">Coba Lagi</button>
+                    </div>
+                `;
+            } else {
+                loadQuestion();
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz-box').innerHTML = `
+                <div class="quiz-question" id="question"></div>
+                <div class="quiz-options" id="options"></div>
+                <div class="result-box" id="result"></div>
+            `;
+            loadQuestion();
+        }
+
+        // API Tester
+        async function testAPI() {
+            const baseUrl = document.getElementById('api-baseurl').value;
+            const endpoint = document.getElementById('api-endpoint').value;
+            const method = document.getElementById('api-method').value;
+            const responseBox = document.getElementById('api-response');
+            
+            responseBox.textContent = 'Loading...';
+            
+            try {
+                const response = await fetch(baseUrl + endpoint, { method });
+                const data = await response.json();
+                responseBox.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseBox.textContent = `Error: ${error.message}\n\nPastikan server berjalan di ${baseUrl}`;
+            }
+        }
+
+        // Initialize
+        loadQuestion();
+    </script>
+</body>
+</html>

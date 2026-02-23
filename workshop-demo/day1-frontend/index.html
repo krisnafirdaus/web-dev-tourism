@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villa Serenity Bali - Luxury Hotel & Resort</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="logo">🌴</span>
+                <span class="brand-name">Villa Serenity</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#rooms">Kamar</a></li>
+                <li><a href="#amenities">Fasilitas</a></li>
+                <li><a href="#testimonials">Testimoni</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+            <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Rasakan Kedamaian di Jantung Bali</h1>
+            <p class="hero-subtitle">Pengalaman menginap mewah dengan sentuhan tradisional Bali</p>
+            <a href="#booking" class="btn btn-primary btn-lg">Pesan Sekarang</a>
+        </div>
+        <!-- Booking Form -->
+        <div class="booking-form-container">
+            <form class="booking-form" id="bookingForm">
+                <div class="form-group">
+                    <label>Check-in</label>
+                    <input type="date" id="checkin" required>
+                </div>
+                <div class="form-group">
+                    <label>Check-out</label>
+                    <input type="date" id="checkout" required>
+                </div>
+                <div class="form-group">
+                    <label>Dewasa</label>
+                    <select id="adults">
+                        <option value="1">1</option>
+                        <option value="2" selected>2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Anak</label>
+                    <select id="children">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-accent">Cek Ketersediaan</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="rooms" class="rooms">
+        <div class="container">
+            <h2 class="section-title">Pilihan Kamar</h2>
+            <p class="section-subtitle">Setiap kamar dirancang untuk kenyamanan maksimal</p>
+            
+            <div class="rooms-grid">
+                <!-- Room Card 1 -->
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600" alt="Deluxe Room">
+                        <span class="room-badge">Populer</span>
+                    </div>
+                    <div class="room-info">
+                        <h3>Deluxe Room</h3>
+                        <p class="room-description">Kamar luas dengan pemandangan taman tropis</p>
+                        <ul class="room-features">
+                            <li>📶 WiFi Gratis</li>
+                            <li>🍳 Sarapan Included</li>
+                            <li>🛁 Bathtub</li>
+                        </ul>
+                        <div class="room-price">
+                            <span class="price">Rp 1.500.000</span>
+                            <span class="per-night">/malam</span>
+                        </div>
+                        <button class="btn btn-secondary" onclick="selectRoom('deluxe')">Pilih Kamar</button>
+                    </div>
+                </div>
+
+                <!-- Room Card 2 -->
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600" alt="Suite Room">
+                    </div>
+                    <div class="room-info">
+                        <h3>Executive Suite</h3>
+                        <p class="room-description">Suite mewah dengan ruang keluarga terpisah</p>
+                        <ul class="room-features">
+                            <li>📶 WiFi Gratis</li>
+                            <li>🍳 Sarapan Included</li>
+                            <li>🏊‍♂️ Akses Pool Private</li>
+                        </ul>
+                        <div class="room-price">
+                            <span class="price">Rp 2.800.000</span>
+                            <span class="per-night">/malam</span>
+                        </div>
+                        <button class="btn btn-secondary" onclick="selectRoom('suite')">Pilih Kamar</button>
+                    </div>
+                </div>
+
+                <!-- Room Card 3 -->
+                <div class="room-card">
+                    <div class="room-image">
+                        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600" alt="Villa">
+                        <span class="room-badge premium">Premium</span>
+                    </div>
+                    <div class="room-info">
+                        <h3>Private Villa</h3>
+                        <p class="room-description">Villa pribadi dengan kolam renang pribadi</p>
+                        <ul class="room-features">
+                            <li>📶 WiFi Gratis</li>
+                            <li>👤 Butler Service</li>
+                            <li>🏊‍♂️ Private Pool</li>
+                        </ul>
+                        <div class="room-price">
+                            <span class="price">Rp 5.500.000</span>
+                            <span class="per-night">/malam</span>
+                        </div>
+                        <button class="btn btn-secondary" onclick="selectRoom('villa')">Pilih Kamar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section id="amenities" class="amenities">
+        <div class="container">
+            <h2 class="section-title">Fasilitas Kami</h2>
+            <div class="amenities-grid">
+                <div class="amenity-item">
+                    <span class="amenity-icon">🏊‍♂️</span>
+                    <h4>Infinity Pool</h4>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🍽️</span>
+                    <h4>Restoran 24 Jam</h4>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">💆‍♀️</span>
+                    <h4>Spa & Wellness</h4>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🏋️‍♂️</span>
+                    <h4>Fitness Center</h4>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🚗</span>
+                    <h4>Airport Transfer</h4>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🌐</span>
+                    <h4>WiFi Cepat</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Apa Kata Tamu Kami</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Pengalaman menginap yang luar biasa. Pelayanan sangat ramah dan villa-nya sangat bersih. Pasti akan kembali!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah">
+                        <div>
+                            <h4>Sarah Johnson</h4>
+                            <span>Jakarta, Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Lokasi strategis, makanan enak, dan kolam renang private villa-nya sangat menyenangkan. Recommended!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Budi">
+                        <div>
+                            <h4>Budi Santoso</h4>
+                            <span>Surabaya, Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Siap Menginap di Villa Serenity?</h2>
+            <p>Dapatkan diskon 15% untuk pemesanan pertama Anda</p>
+            <a href="#booking" class="btn btn-primary btn-lg">Pesan Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>🌴 Villa Serenity</h3>
+                    <p>Pengalaman menginap terbaik di Bali dengan sentuhan tradisional yang modern.</p>
+                </div>
+                <div class="footer-contact">
+                    <h4>Kontak Kami</h4>
+                    <p>📍 Jl. Raya Ubud No. 123, Bali</p>
+                    <p>📞 +62 361 1234567</p>
+                    <p>✉️ info@villaserenity.com</p>
+                </div>
+                <div class="footer-social">
+                    <h4>Ikuti Kami</h4>
+                    <div class="social-links">
+                        <a href="#">📘 Facebook</a>
+                        <a href="#">📸 Instagram</a>
+                        <a href="#">🐦 Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Villa Serenity Bali. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
