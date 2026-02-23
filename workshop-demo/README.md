@@ -25,6 +25,9 @@ workshop-demo/
 
 ## 🚀 Day 1: Front-End Development
 
+### Live Demo
+Akses demo: **https://web-dev-tourism.vercel.app/**
+
 ### Demo Landing Page Hotel
 
 Landing page lengkap untuk hotel "Villa Serenity Bali" dengan fitur:
