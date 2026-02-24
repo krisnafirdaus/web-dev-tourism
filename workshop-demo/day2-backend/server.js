@@ -7,12 +7,29 @@
  * - Simulasi database dengan in-memory storage
  * - Contoh integrasi payment gateway (simulasi)
  * - Error handling dan validasi
+ * 
+ * CARA MENJALANKAN:
+ * 1. npm install
+ * 2. npm start
+ * 3. Buka http://localhost:3000
+ * 
+ * NOTE: Memerlukan Node.js v18+ (untuk fetch API native)
+ *       atau install node-fetch: npm install node-fetch@2
  */
 
 const express = require('express');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
+
+// Check Node.js version
+const nodeVersion = process.versions.node;
+const majorVersion = parseInt(nodeVersion.split('.')[0]);
+if (majorVersion < 18) {
+    console.warn('⚠️  Warning: Node.js v18+ direkomendasikan untuk fetch API native');
+    console.warn('   Versi Anda: v' + nodeVersion);
+    console.warn('   Install node-fetch: npm install node-fetch@2');
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -658,6 +675,10 @@ app.use((req, res) => {
     });
 });
 
+// Demo Payment Routes (untuk workshop)
+const demoPaymentRoutes = require('./demo-payment');
+app.use('/demo', demoPaymentRoutes);
+
 // Error Handler
 app.use((err, req, res, next) => {
     console.error('❌ Error:', err);
@@ -679,12 +700,18 @@ app.listen(PORT, () => {
     console.log('╠══════════════════════════════════════════════════════════╣');
     console.log(`║  Server running at: http://localhost:${PORT}               ║`);
     console.log('║                                                          ║');
-    console.log('║  Available Endpoints:                                    ║');
+    console.log('║  📡 API Endpoints:                                       ║');
     console.log('║  • GET  /api/hotels           - List hotels              ║');
     console.log('║  • GET  /api/rooms            - List rooms               ║');
     console.log('║  • POST /api/bookings         - Create booking           ║');
     console.log('║  • POST /api/payments/:id/pay - Process payment          ║');
     console.log('║  • GET  /api/dashboard/stats  - Statistics               ║');
+    console.log('║                                                          ║');
+    console.log('║  💳 Demo Payment Gateway:                                ║');
+    console.log('║  • GET  /demo/payment-methods - List payment methods     ║');
+    console.log('║  • POST /demo/create-mock-payment                        ║');
+    console.log('║  • GET  /demo/mock-midtrans   - Mock Midtrans page       ║');
+    console.log('║  • GET  /demo/mock-xendit     - Mock Xendit page         ║');
     console.log('╚══════════════════════════════════════════════════════════╝');
     console.log('');
 });
